@@ -1,0 +1,893 @@
+{
+  "nodes": [
+    {
+      "kind": "module",
+      "name": "mc-cdr/ingestion/azure/activity_log_collector.py",
+      "properties": {
+        "role": "service",
+        "language": "python",
+        "exports": [
+          "CollectorMetrics",
+          "AzureActivityLogCollector"
+        ],
+        "classes": [
+          "CollectorMetrics",
+          "AzureActivityLogCollector"
+        ],
+        "functions": [
+          "log_snapshot",
+          "__init__",
+          "start_metrics_logger",
+          "_loop",
+          "stop_metrics_logger",
+          "poll"
+        ],
+        "isEntry": false,
+        "path": "mc-cdr/ingestion/azure/activity_log_collector.py",
+        "external": false,
+        "contentPreview": "from dataclasses import dataclass\r\nfrom datetime import datetime, timedelta, timezone\r\nimport logging\r\nimport threading\r\nimport time\r\nfrom typing import Any\r\n\r\nfrom azure.monitor.query import LogsQueryClient\r\nfrom azure.identity import DefaultAzureCredential\r\n\r\nlogger = logging.getLogger(__name__)\r\n\r\n\r\n@dataclass\r\nclass CollectorMetrics:\r\n    events_collected: int = 0\r\n    errors: int = 0\r\n    last_poll: str | None = None\r\n\r\n    def log_snapshot(self) -> None:\r\n        \"\"\"Log a snapshot of current metrics for observability.\"\"\"\r\n        logger.info(\r\n            \"collector metrics: events=%d errors=%d last_poll=%s\",\r\n            self.events_collected,\r\n            self.errors,\r\n            self.last_poll,\r\n        )\r\n\r\n\r\nclass AzureActivityLogCollector:\r\n    \"\"\"Collects Azure Activity Logs and enqueues raw payloads.\"\"\"\r\n\r\n    def __init__(self, workspace_id: str, event_queue: Any):\r\n        self.credential = DefaultAzureCredential()\r\n        self.client = LogsQueryClient(self.credential)\r\n        self.workspace_id = workspace_id\r\n        self.event_queue = event_queue\r\n        self.metrics = CollectorMetrics()\r\n        self._metrics_thread: threading.Thread | None = None\r\n        self._stop_metrics = threading.Event()\r\n\r\n    def start_metrics_logger(self, interval_seconds: int = 60) -> None:\r\n        \"\"\"Start a background loop that logs metrics every interval.\"\"\"\r\n        if self._metrics_thread and self._metrics_thread.is_alive():\r\n            return\r\n\r\n        self._stop_met"
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ],
+      "id": "module:8ee4a77720096fe4"
+    },
+    {
+      "id": "module:cebf61970d756b53",
+      "kind": "module",
+      "name": "dataclasses",
+      "properties": {
+        "role": "external",
+        "language": "python",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "isEntry": false,
+        "path": "dataclasses",
+        "external": true
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "id": "module:89ffad089c042f31",
+      "kind": "module",
+      "name": "datetime",
+      "properties": {
+        "role": "external",
+        "language": "python",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "isEntry": false,
+        "path": "datetime",
+        "external": true
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "id": "module:02d7d3475883e6dc",
+      "kind": "module",
+      "name": "typing",
+      "properties": {
+        "role": "external",
+        "language": "python",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "isEntry": false,
+        "path": "typing",
+        "external": true
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "id": "module:4fce5b4545b627b8",
+      "kind": "module",
+      "name": "azure.monitor.query",
+      "properties": {
+        "role": "external",
+        "language": "python",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "isEntry": false,
+        "path": "azure.monitor.query",
+        "external": true
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "id": "module:1769b1237c75e318",
+      "kind": "module",
+      "name": "azure.identity",
+      "properties": {
+        "role": "external",
+        "language": "python",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "isEntry": false,
+        "path": "azure.identity",
+        "external": true
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "id": "module:9a5fa4ef6680f751",
+      "kind": "module",
+      "name": "logging\r\nimport threading\r\nimport time\r\nfrom typing import Any\r\n\r\nfrom azure.monitor.query import LogsQueryClient\r\nfrom azure.identity import DefaultAzureCredential",
+      "properties": {
+        "role": "external",
+        "language": "python",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "isEntry": false,
+        "path": "logging\r\nimport threading\r\nimport time\r\nfrom typing import Any\r\n\r\nfrom azure.monitor.query import LogsQueryClient\r\nfrom azure.identity import DefaultAzureCredential",
+        "external": true
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "module:8ee4a77720096fe4",
+      "target": "module:cebf61970d756b53",
+      "relation": "imports",
+      "properties": {
+        "confidence": "low",
+        "evidence_type": "import-string"
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "source": "module:8ee4a77720096fe4",
+      "target": "module:89ffad089c042f31",
+      "relation": "imports",
+      "properties": {
+        "confidence": "low",
+        "evidence_type": "import-string"
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "source": "module:8ee4a77720096fe4",
+      "target": "module:02d7d3475883e6dc",
+      "relation": "imports",
+      "properties": {
+        "confidence": "low",
+        "evidence_type": "import-string"
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "source": "module:8ee4a77720096fe4",
+      "target": "module:4fce5b4545b627b8",
+      "relation": "imports",
+      "properties": {
+        "confidence": "low",
+        "evidence_type": "import-string"
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "source": "module:8ee4a77720096fe4",
+      "target": "module:1769b1237c75e318",
+      "relation": "imports",
+      "properties": {
+        "confidence": "low",
+        "evidence_type": "import-string"
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    },
+    {
+      "source": "module:8ee4a77720096fe4",
+      "target": "module:9a5fa4ef6680f751",
+      "relation": "imports",
+      "properties": {
+        "confidence": "low",
+        "evidence_type": "import-string"
+      },
+      "evidence": [
+        "mc-cdr/ingestion/azure/activity_log_collector.py"
+      ]
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-05-26T19:08:31.948Z",
+    "workspace_root": "c:\\VSCode\\Multi - CDR Platform",
+    "node_count": 7,
+    "edge_count": 6,
+    "stack": "Python · imports: relative imports",
+    "file_hash": "439aad737da0db1a",
+    "confidence_counts": {
+      "high": 0,
+      "medium": 0,
+      "low": 6
+    }
+  },
+  "intelligence": {
+    "codeGraph": {
+      "nodes": [
+        {
+          "id": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "type": "FILE",
+          "name": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py"
+        },
+        {
+          "id": "CLASS::mc-cdr/ingestion/azure/activity_log_collector.py::CollectorMetrics:15",
+          "type": "CLASS",
+          "name": "CollectorMetrics",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 15,
+          "end_line": 27
+        },
+        {
+          "id": "CLASS::mc-cdr/ingestion/azure/activity_log_collector.py::AzureActivityLogCollector:30",
+          "type": "CLASS",
+          "name": "AzureActivityLogCollector",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 30,
+          "end_line": 101
+        },
+        {
+          "id": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::log_snapshot:20",
+          "type": "FUNCTION",
+          "name": "mc-cdr.ingestion.azure.activity_log_collector.log_snapshot",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 20,
+          "end_line": 27,
+          "metadata": {
+            "simpleName": "log_snapshot",
+            "qualifiedName": "mc-cdr.ingestion.azure.activity_log_collector.log_snapshot",
+            "clusterId": 1
+          }
+        },
+        {
+          "id": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "FUNCTION",
+          "name": "mc-cdr.ingestion.azure.activity_log_collector.__init__",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 33,
+          "end_line": 40,
+          "metadata": {
+            "simpleName": "__init__",
+            "qualifiedName": "mc-cdr.ingestion.azure.activity_log_collector.__init__",
+            "clusterId": 2
+          }
+        },
+        {
+          "id": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::start_metrics_logger:42",
+          "type": "FUNCTION",
+          "name": "mc-cdr.ingestion.azure.activity_log_collector.start_metrics_logger",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 42,
+          "end_line": 55,
+          "metadata": {
+            "simpleName": "start_metrics_logger",
+            "qualifiedName": "mc-cdr.ingestion.azure.activity_log_collector.start_metrics_logger",
+            "clusterId": 3
+          }
+        },
+        {
+          "id": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::_loop:49",
+          "type": "FUNCTION",
+          "name": "mc-cdr.ingestion.azure.activity_log_collector._loop",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 49,
+          "end_line": 52,
+          "metadata": {
+            "simpleName": "_loop",
+            "qualifiedName": "mc-cdr.ingestion.azure.activity_log_collector._loop",
+            "clusterId": 4
+          }
+        },
+        {
+          "id": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::stop_metrics_logger:57",
+          "type": "FUNCTION",
+          "name": "mc-cdr.ingestion.azure.activity_log_collector.stop_metrics_logger",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 57,
+          "end_line": 59,
+          "metadata": {
+            "simpleName": "stop_metrics_logger",
+            "qualifiedName": "mc-cdr.ingestion.azure.activity_log_collector.stop_metrics_logger",
+            "clusterId": 5
+          }
+        },
+        {
+          "id": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "FUNCTION",
+          "name": "mc-cdr.ingestion.azure.activity_log_collector.poll",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 61,
+          "end_line": 101,
+          "metadata": {
+            "simpleName": "poll",
+            "qualifiedName": "mc-cdr.ingestion.azure.activity_log_collector.poll",
+            "clusterId": 6
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::logger:22",
+          "type": "VARIABLE",
+          "name": "logger",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 22,
+          "end_line": 22,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::self:24",
+          "type": "VARIABLE",
+          "name": "self",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 24,
+          "end_line": 24,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::str:33",
+          "type": "VARIABLE",
+          "name": "str",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 33,
+          "end_line": 33,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::Any:33",
+          "type": "VARIABLE",
+          "name": "Any",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 33,
+          "end_line": 33,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::DefaultAzureCredential:34",
+          "type": "VARIABLE",
+          "name": "DefaultAzureCredential",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 34,
+          "end_line": 34,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::LogsQueryClient:35",
+          "type": "VARIABLE",
+          "name": "LogsQueryClient",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 35,
+          "end_line": 35,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::workspace_id:36",
+          "type": "VARIABLE",
+          "name": "workspace_id",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 36,
+          "end_line": 36,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::event_queue:37",
+          "type": "VARIABLE",
+          "name": "event_queue",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 37,
+          "end_line": 37,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::CollectorMetrics:38",
+          "type": "VARIABLE",
+          "name": "CollectorMetrics",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 38,
+          "end_line": 38,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::threading:39",
+          "type": "VARIABLE",
+          "name": "threading",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 39,
+          "end_line": 39,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::int:42",
+          "type": "VARIABLE",
+          "name": "int",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 42,
+          "end_line": 42,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::time:52",
+          "type": "VARIABLE",
+          "name": "time",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 52,
+          "end_line": 52,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::interval_seconds:52",
+          "type": "VARIABLE",
+          "name": "interval_seconds",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 52,
+          "end_line": 52,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::_loop:54",
+          "type": "VARIABLE",
+          "name": "_loop",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 54,
+          "end_line": 54,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::end_time:63",
+          "type": "VARIABLE",
+          "name": "end_time",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 63,
+          "end_line": 63,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::datetime:63",
+          "type": "VARIABLE",
+          "name": "datetime",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 63,
+          "end_line": 63,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::timezone:63",
+          "type": "VARIABLE",
+          "name": "timezone",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 63,
+          "end_line": 63,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::start_time:64",
+          "type": "VARIABLE",
+          "name": "start_time",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 64,
+          "end_line": 64,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::timedelta:64",
+          "type": "VARIABLE",
+          "name": "timedelta",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 64,
+          "end_line": 64,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::lookback_minutes:64",
+          "type": "VARIABLE",
+          "name": "lookback_minutes",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 64,
+          "end_line": 64,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::query:66",
+          "type": "VARIABLE",
+          "name": "query",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 66,
+          "end_line": 66,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::response:77",
+          "type": "VARIABLE",
+          "name": "response",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 77,
+          "end_line": 77,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::table:83",
+          "type": "VARIABLE",
+          "name": "table",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 83,
+          "end_line": 83,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::event:85",
+          "type": "VARIABLE",
+          "name": "event",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 85,
+          "end_line": 85,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::dict:85",
+          "type": "VARIABLE",
+          "name": "dict",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 85,
+          "end_line": 85,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::zip:85",
+          "type": "VARIABLE",
+          "name": "zip",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 85,
+          "end_line": 85,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::row:85",
+          "type": "VARIABLE",
+          "name": "row",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 85,
+          "end_line": 85,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::Exception:94",
+          "type": "VARIABLE",
+          "name": "Exception",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 94,
+          "end_line": 94,
+          "metadata": {
+            "variable": true
+          }
+        },
+        {
+          "id": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::exc:96",
+          "type": "VARIABLE",
+          "name": "exc",
+          "file": "mc-cdr/ingestion/azure/activity_log_collector.py",
+          "start_line": 96,
+          "end_line": 96,
+          "metadata": {
+            "variable": true
+          }
+        }
+      ],
+      "edges": [
+        {
+          "source": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "target": "CLASS::mc-cdr/ingestion/azure/activity_log_collector.py::CollectorMetrics:15",
+          "type": "DEFINES"
+        },
+        {
+          "source": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "target": "CLASS::mc-cdr/ingestion/azure/activity_log_collector.py::AzureActivityLogCollector:30",
+          "type": "DEFINES"
+        },
+        {
+          "source": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::log_snapshot:20",
+          "type": "DEFINES"
+        },
+        {
+          "source": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "DEFINES"
+        },
+        {
+          "source": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::start_metrics_logger:42",
+          "type": "DEFINES"
+        },
+        {
+          "source": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::_loop:49",
+          "type": "DEFINES"
+        },
+        {
+          "source": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::stop_metrics_logger:57",
+          "type": "DEFINES"
+        },
+        {
+          "source": "FILE::mc-cdr/ingestion/azure/activity_log_collector.py",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "DEFINES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::logger:22",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::log_snapshot:20",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::logger:22",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::self:24",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::self:24",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::_loop:49",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::self:24",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::log_snapshot:20",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::self:24",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::self:24",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::start_metrics_logger:42",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::self:24",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::stop_metrics_logger:57",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::str:33",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::Any:33",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::DefaultAzureCredential:34",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::LogsQueryClient:35",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::workspace_id:36",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::event_queue:37",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::CollectorMetrics:38",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::threading:39",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::__init__:33",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::threading:39",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::start_metrics_logger:42",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::int:42",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::int:42",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::start_metrics_logger:42",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::time:52",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::_loop:49",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::interval_seconds:52",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::_loop:49",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::_loop:54",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::start_metrics_logger:42",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::end_time:63",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::datetime:63",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::timezone:63",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::start_time:64",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::timedelta:64",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::lookback_minutes:64",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::query:66",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::response:77",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::table:83",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::event:85",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::dict:85",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::zip:85",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::row:85",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::Exception:94",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        },
+        {
+          "source": "VARIABLE::mc-cdr/ingestion/azure/activity_log_collector.py::exc:96",
+          "target": "FUNCTION::mc-cdr/ingestion/azure/activity_log_collector.py::poll:61",
+          "type": "USES"
+        }
+      ]
+    },
+    "debugLog": [
+      "git coupling scores: 0",
+      "AST extraction summary: files=1",
+      "functions parsed: 6",
+      "call edges created: 0",
+      "resolved calls: 0",
+      "calls ignored: 24",
+      "dependency edges: 0",
+      "git coupling edges: 0"
+    ]
+  }
+}

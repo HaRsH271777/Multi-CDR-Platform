@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: mc-cdr-timescaledb
+    environment:
+      POSTGRES_USER: mc_cdr
+      POSTGRES_PASSWORD: mc_cdr_password
+      POSTGRES_DB: mc_cdr
+    ports:
+      - "5432:5432"
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: mc-cdr-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - timescaledb
+
+volumes:
+  timescaledb_data:

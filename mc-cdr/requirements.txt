@@ -1,0 +1,16 @@
+boto3
+azure-monitor-query
+google-cloud-logging
+pydantic
+sqlalchemy
+scikit-learn
+pandas
+fastapi
+uvicorn
+pytest
+faker
+python-dotenv
+PyYAML
+joblib
+pytest-cov
+moto

@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: csnl-coverage
+        name: csnl coverage gate
+        entry: pytest csnl/tests -q --cov=csnl --cov-fail-under=80
+        language: system
+        pass_filenames: false
