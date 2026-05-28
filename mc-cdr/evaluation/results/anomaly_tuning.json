@@ -1,0 +1,26 @@
+{
+  "tuning_date": "2026-05-28T06:43:30.635256+00:00",
+  "random_seed": 42,
+  "results": [
+    {
+      "contamination": 0.01,
+      "precision": 0.9615,
+      "recall": 1.0,
+      "f1": 0.9804
+    },
+    {
+      "contamination": 0.05,
+      "precision": 0.8621,
+      "recall": 1.0,
+      "f1": 0.9259
+    },
+    {
+      "contamination": 0.1,
+      "precision": 0.7692,
+      "recall": 1.0,
+      "f1": 0.8696
+    }
+  ],
+  "selected_contamination": 0.01,
+  "selection_reason": "Selected the contamination value with the highest F1 score."
+}

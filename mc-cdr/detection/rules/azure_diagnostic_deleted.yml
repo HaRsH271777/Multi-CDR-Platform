@@ -1,0 +1,14 @@
+title: Azure Diagnostic Settings Deleted
+logsource:
+  product: cloud
+  service: cloudtrail
+detection:
+  selection:
+    event_type: Microsoft.Insights/diagnosticSettings/delete
+  condition: selection
+falsepositives:
+  - Authorized diagnostic settings cleanup
+level: critical
+tags:
+  - attack.t1562.008
+  - attack.defense_evasion

@@ -1,0 +1,15 @@
+title: S3 Bucket Made Public
+logsource:
+  product: cloud
+  service: s3
+detection:
+  selection:
+    event_type: PutBucketAcl
+    action: update
+  condition: selection
+falsepositives:
+  - Intentional public bucket configuration for static content
+level: high
+tags:
+  - attack.t1530
+  - attack.collection

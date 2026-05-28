@@ -1,0 +1,14 @@
+title: Azure Guest User Added
+logsource:
+  product: cloud
+  service: identity
+detection:
+  selection:
+    event_type: Microsoft.AAD/users/write
+  condition: selection
+falsepositives:
+  - Approved guest user onboarding
+level: high
+tags:
+  - attack.t1136.003
+  - attack.persistence

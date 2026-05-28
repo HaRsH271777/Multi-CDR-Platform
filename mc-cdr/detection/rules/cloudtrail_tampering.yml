@@ -1,0 +1,14 @@
+title: CloudTrail Tampering
+logsource:
+  product: cloud
+  service: cloudtrail
+detection:
+  selection:
+    event_type: UpdateTrail
+  condition: selection
+falsepositives:
+  - Scheduled CloudTrail configuration updates
+level: high
+tags:
+  - attack.t1562.008
+  - attack.defense_evasion

@@ -1,0 +1,14 @@
+title: New Administrative User Created
+logsource:
+  product: cloud
+  service: iam
+detection:
+  selection:
+    event_type: CreateUser
+  condition: selection
+falsepositives:
+  - Onboarding of a new administrator
+level: high
+tags:
+  - attack.t1136
+  - attack.persistence

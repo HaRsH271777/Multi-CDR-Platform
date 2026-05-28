@@ -1,0 +1,14 @@
+title: Security Group Opened to the Internet
+logsource:
+  product: cloud
+  service: network
+detection:
+  selection:
+    event_type: AuthorizeSecurityGroupIngress
+  condition: selection
+falsepositives:
+  - Approved security group update for a public service
+level: medium
+tags:
+  - attack.t1190
+  - attack.initial_access

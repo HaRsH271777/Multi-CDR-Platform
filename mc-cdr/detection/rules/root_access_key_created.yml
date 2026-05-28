@@ -1,0 +1,15 @@
+title: Root Access Key Created
+logsource:
+  product: cloud
+  service: iam
+detection:
+  selection:
+    event_type: CreateAccessKey
+    principal.is_root: true
+  condition: selection
+falsepositives:
+  - Emergency root access key rotation
+level: critical
+tags:
+  - attack.t1098.001
+  - attack.persistence

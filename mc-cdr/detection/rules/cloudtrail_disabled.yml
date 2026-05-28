@@ -1,0 +1,17 @@
+title: CloudTrail Disabled
+logsource:
+  product: cloud
+  service: cloudtrail
+detection:
+  selection:
+    event_type:
+      - DeleteTrail
+      - StopLogging
+      - UpdateTrail
+  condition: selection
+falsepositives:
+  - Authorized logging configuration change during maintenance
+level: critical
+tags:
+  - attack.t1562.008
+  - attack.defense_evasion

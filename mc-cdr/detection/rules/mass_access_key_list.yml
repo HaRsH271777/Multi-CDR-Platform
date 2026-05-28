@@ -1,0 +1,14 @@
+title: Access Key Enumeration
+logsource:
+  product: cloud
+  service: iam
+detection:
+  selection:
+    event_type: ListAccessKeys
+  condition: selection
+falsepositives:
+  - Inventory audit by a security team
+level: low
+tags:
+  - attack.t1087.004
+  - attack.discovery

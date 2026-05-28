@@ -1,0 +1,15 @@
+title: Root Account Login
+logsource:
+  product: cloud
+  service: identity
+detection:
+  selection:
+    principal.is_root: true
+    action: login
+  condition: selection
+falsepositives:
+  - Approved break-glass root login
+level: critical
+tags:
+  - attack.t1078.004
+  - attack.initial_access

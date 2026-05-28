@@ -1,0 +1,14 @@
+title: Azure Role Assignment Updated
+logsource:
+  product: cloud
+  service: iam
+detection:
+  selection:
+    event_type: Microsoft.Authorization/roleAssignments/write
+  condition: selection
+falsepositives:
+  - Approved role assignment by administrators
+level: high
+tags:
+  - attack.t1098.003
+  - attack.persistence

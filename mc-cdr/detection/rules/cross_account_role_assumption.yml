@@ -1,0 +1,14 @@
+title: Cross-Account Role Assumption
+logsource:
+  product: cloud
+  service: iam
+detection:
+  selection:
+    event_type: AssumeRole
+  condition: selection
+falsepositives:
+  - Approved cross-account access for shared services
+level: medium
+tags:
+  - attack.t1199
+  - attack.initial_access
