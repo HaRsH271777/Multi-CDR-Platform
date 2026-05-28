@@ -1,36 +1,29 @@
 # MC-CDR
 
-MC-CDR (Multi-Cloud Detection and Response) is a security telemetry pipeline that
-normalizes cloud audit logs into a common schema, enriches them, and prepares the
-data for detection and response workflows. The project targets AWS, Azure, and GCP
-with a consistent event model so detection rules can be written once and applied
-across providers.
+MC-CDR (Multi-Cloud Detection and Response) is a unified security operations platform
+for cloud environments. The project aims to eliminate visibility gaps across providers
+by collecting audit telemetry, normalizing it into a common event schema, applying
+provider-agnostic detections mapped to MITRE ATT&CK, and orchestrating response actions
+through native cloud APIs. The architecture is modular so that ingestion, normalization,
+detection, and response can evolve independently while remaining consistent across clouds.
 
-## What it does
+At the core of MC-CDR is a Cloud Security Normalization Layer (CSNL). CSNL transforms
+provider-specific audit logs into a normalized event model that preserves forensic
+context while enabling consistent detection logic. This design makes it possible to
+write rules once and run them across AWS, Azure, and GCP, reducing duplicated detection
+engineering work and enabling cross-cloud correlation. The platform prioritizes
+forensic integrity by retaining the original raw event alongside normalized fields
+and enrichments such as IP classification and temporal context.
 
-- Ingests cloud audit events from AWS CloudTrail and Azure Activity Logs.
-- Normalizes raw events into a shared CSNL schema with consistent fields.
-- Adds enrichment metadata such as IP classification and time context.
-- Provides a detection engine and response orchestration layer.
-- Stores normalized events and detections in TimescaleDB for time-series analysis.
+On top of normalized events, MC-CDR provides a rule-based detection engine and an
+anomaly detection module to surface both known techniques and behavioral outliers.
+Detections are mapped to MITRE ATT&CK techniques to keep analytic coverage explicit
+and explainable. The response layer is designed to execute high-confidence actions
+through provider APIs, supporting containment and remediation workflows without
+locking the platform into any single cloud ecosystem.
 
-## Current status
-
-- Phase 0: infrastructure setup complete (TimescaleDB and schema verified).
-- Phase 1: ingestion scaffolding in place for AWS and Azure.
-- Phase 2: Cloud Security Normalization Layer (CSNL) implemented with tests.
-- Phase 3+: detection and response are planned next.
-
-## Repository structure (high level)
-
-- mc-cdr/ingestion: cloud log collectors
-- mc-cdr/csnl: normalization schema, enrichments, and tests
-- mc-cdr/detection: rule engine and anomaly detection
-- mc-cdr/response: automated response actions and playbooks
-- mc-cdr/storage: database models and migrations
-
-## Principles
-
-- Measured results only: metrics are reported after evaluation artifacts are committed.
-- Explicit mappings: normalization and severity mappings are versioned and testable.
-- Defensive automation: response workflows start in observe-only mode.
+The project also includes an evaluation framework for measuring detection accuracy
+and response latency on reproducible datasets. Results are intended to be backed by
+actual executions and saved as artifacts so that claims are defensible and auditable.
+This commitment to measured outcomes drives design choices throughout the system,
+from normalized event design to response telemetry and benchmarking.
