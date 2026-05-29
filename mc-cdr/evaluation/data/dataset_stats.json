@@ -1,0 +1,15 @@
+{
+  "total_events": 10800,
+  "benign_count": 10000,
+  "attack_count": 800,
+  "attack_chains": 500,
+  "scenarios": [
+    "cloudtrail_tampering",
+    "credential_access",
+    "new_admin_user",
+    "privilege_escalation",
+    "root_login"
+  ],
+  "random_seed": 42,
+  "generated_at": "2026-05-29T06:06:27.096005+00:00"
+}

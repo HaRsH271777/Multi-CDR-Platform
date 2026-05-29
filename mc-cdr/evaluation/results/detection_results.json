@@ -1,0 +1,58 @@
+{
+  "evaluated_at": "2026-05-29T06:06:51.034191+00:00",
+  "dataset": "evaluation/data/dataset.jsonl",
+  "dataset_stats": {
+    "total": 10800,
+    "benign": 10000,
+    "attack": 800,
+    "skipped": 0
+  },
+  "overall": {
+    "true_positives": 700,
+    "false_positives": 0,
+    "true_negatives": 10000,
+    "false_negatives": 100,
+    "tpr": 0.875,
+    "fpr": 0.0,
+    "precision": 1.0,
+    "f1_score": 0.9333
+  },
+  "per_scenario": {
+    "normal_operations": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "tn": 10000
+    },
+    "privilege_escalation": {
+      "tp": 300,
+      "fp": 0,
+      "fn": 100,
+      "tn": 0
+    },
+    "root_login": {
+      "tp": 100,
+      "fp": 0,
+      "fn": 0,
+      "tn": 0
+    },
+    "credential_access": {
+      "tp": 100,
+      "fp": 0,
+      "fn": 0,
+      "tn": 0
+    },
+    "new_admin_user": {
+      "tp": 100,
+      "fp": 0,
+      "fn": 0,
+      "tn": 0
+    },
+    "cloudtrail_tampering": {
+      "tp": 100,
+      "fp": 0,
+      "fn": 0,
+      "tn": 0
+    }
+  }
+}
